@@ -133,7 +133,7 @@ jobs:
           keys: [backend-build]
       # Your job code here
       - run:
-          name: Front-end scan
+          name: Back-end scan
           command: |
             cd backend
             npm audit fix --audit-level=critical --force
