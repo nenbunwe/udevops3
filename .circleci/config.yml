@@ -49,26 +49,40 @@ jobs:
             cd frontend
             npm install
             npm run build
+      # - slack/notify:
+      #     event: fail
+      #     channel: C03DF2RGQJC
+      #     template: basic_fail_1
+      # - slack/notify:
+      #     event: pass
+      #     channel: C03DF2RGQJC
+      #     template: success_tagged_deploy_1
       - slack/notify:
           event: fail
           channel: C03DF2RGQJC
-          template: basic_fail_1
+          custom: |
+            {
+              "blocks": [{
+                "type": "section",
+                "fields": [{
+                  "type": "plain_text",
+                  "text": "Fail in build ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fail at ${CIRCLE_SHA1}"
+                }]
+              }] 
+            }
       - slack/notify:
           event: pass
           channel: C03DF2RGQJC
-          template: success_tagged_deploy_1
-      # - slack/notify:
-      #     event: fail
-      #     custom: |
-      #       {
-      #         "blocks": [{
-      #           "type": "section",
-      #           "fields": [{
-      #             "type": "plain_text",
-      #             "text": "Fail in build "
-      #           }]
-      #         }] 
-      #       }
+          custom: |
+            {
+              "blocks": [{
+                "type": "section",
+                "fields": [{
+                  "type": "plain_text",
+                  "text": "Fixed in build ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fixed at ${CIRCLE_SHA1}"
+                }]
+              }] 
+            }
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
@@ -90,11 +104,29 @@ jobs:
       - slack/notify:
           event: fail
           channel: C03DF2RGQJC
-          template: basic_fail_1
+          custom: |
+            {
+              "blocks": [{
+                "type": "section",
+                "fields": [{
+                  "type": "plain_text",
+                  "text": "Fail in build ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fail at ${CIRCLE_SHA1}"
+                }]
+              }] 
+            }
       - slack/notify:
           event: pass
           channel: C03DF2RGQJC
-          template: success_tagged_deploy_1
+          custom: |
+            {
+              "blocks": [{
+                "type": "section",
+                "fields": [{
+                  "type": "plain_text",
+                  "text": "Fixed in build ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fixed at ${CIRCLE_SHA1}"
+                }]
+              }] 
+            }
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -343,14 +375,14 @@ workflows:
           context: my-context
       - build-backend:
           context: my-context
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
+      # - test-frontend:
+      #     requires: [build-frontend]
+      # - test-backend:
+      #     requires: [build-backend]
+      # - scan-backend:
+      #     requires: [build-backend]
+      # - scan-frontend:
+      #     requires: [build-frontend]
       # - deploy-infrastructure:
       #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       #     filters:
