@@ -48,15 +48,7 @@ jobs:
             # Your code here
             cd frontend
             npm install
-            npm run build
-      # - slack/notify:
-      #     event: fail
-      #     channel: C03DF2RGQJC
-      #     template: basic_fail_1
-      # - slack/notify:
-      #     event: pass
-      #     channel: C03DF2RGQJC
-      #     template: success_tagged_deploy_1
+            npm run builda
       - slack/notify:
           event: fail
           channel: C03DF2RGQJC
@@ -66,7 +58,7 @@ jobs:
                 "type": "section",
                 "fields": [{
                   "type": "plain_text",
-                  "text": "Fail in build ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fail at ${CIRCLE_SHA1}"
+                  "text": "Frontend FAIL build in ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fail at ${CIRCLE_SHA1}"
                 }]
               }] 
             }
@@ -79,7 +71,7 @@ jobs:
                 "type": "section",
                 "fields": [{
                   "type": "plain_text",
-                  "text": "Fixed in build ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fixed at ${CIRCLE_SHA1}"
+                  "text": "Frontend SUCCESS build in ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fixed at ${CIRCLE_SHA1}"
                 }]
               }] 
             }
@@ -110,7 +102,7 @@ jobs:
                 "type": "section",
                 "fields": [{
                   "type": "plain_text",
-                  "text": "Fail in build ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fail at ${CIRCLE_SHA1}"
+                  "text": "Backend FAIL build in ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fail at ${CIRCLE_SHA1}"
                 }]
               }] 
             }
@@ -123,7 +115,7 @@ jobs:
                 "type": "section",
                 "fields": [{
                   "type": "plain_text",
-                  "text": "Fixed in build ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fixed at ${CIRCLE_SHA1}"
+                  "text": "Backend SUCCESS build in ${CIRCLE_BUILD_NUM} of ${CIRCLE_PROJECT_REPONAME} (${CIRCLE_BRANCH}) -${CIRCLE_PR_USERNAME}: Fixed at ${CIRCLE_SHA1}"
                 }]
               }] 
             }
