@@ -87,6 +87,14 @@ jobs:
             cd backend
             npm install
             npm run build
+      - slack/notify:
+          event: fail
+          channel: C03DF2RGQJC
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          channel: C03DF2RGQJC
+          template: success_tagged_deploy_1
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -331,8 +339,10 @@ cleanup:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
+      - build-frontend:
+          context: my-context
+      - build-backend:
+          context: my-context
       - test-frontend:
           requires: [build-frontend]
       - test-backend:
