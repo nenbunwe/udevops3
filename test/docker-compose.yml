@@ -1,0 +1,16 @@
+# docker-compose.yml
+version: "3"
+services:
+  database:
+    container_name: database
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=glee
+    ports:
+      - "5532:5432"
+  remote-host:
+    image: remote-host
+    container_name: remote-host
+  
