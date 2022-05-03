@@ -202,7 +202,7 @@ jobs:
     docker:
       # Docker image here that supports AWS CLI
       # - image: cimg/base:stable-22.04
-      - image: 18120211/aws-ansible-22.04
+      - image: 18120211/aws-ansible-22.04:latest
     steps:
       # Checkout code from git
       - checkout
