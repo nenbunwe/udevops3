@@ -38,7 +38,7 @@ orbs:
 jobs:
   build-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: 18120211/udacity-project3
     steps:
       - checkout
       - restore_cache:
@@ -82,7 +82,7 @@ jobs:
 
   build-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: 18120211/udacity-project3
     steps:
       - checkout
       - restore_cache:
@@ -127,7 +127,7 @@ jobs:
   test-frontend:
     docker:
       # Docker image here
-      - image: circleci/node:13.8.0
+      - image: 18120211/udacity-project3
     steps:
       # Checkout code from git
       - checkout
@@ -144,7 +144,7 @@ jobs:
   test-backend:
     docker:
       # Docker image here
-      - image: circleci/node:13.8.0
+      - image: 18120211/udacity-project3
     steps:
       # Checkout code from git
       - checkout
@@ -161,7 +161,7 @@ jobs:
   scan-frontend:
     docker:
       # Docker image here
-      - image: circleci/node:13.8.0
+      - image: 18120211/udacity-project3
     steps:
       # Checkout code from git
       - checkout
@@ -179,7 +179,7 @@ jobs:
   scan-backend:
     docker:
       # Docker image here
-      - image: circleci/node:13.8.0
+      - image: 18120211/udacity-project3
     steps:
       # Checkout code from git
       - checkout
@@ -196,12 +196,13 @@ jobs:
 
 
   deploy-infrastructure:
-    # docker:
+    docker:
       # Docker image here that supports AWS CLI
-    executor: aws-cli/default
+      - image: 18120211/udacity-project3
     steps:
       # Checkout code from git
       - checkout
+      - aws-cli
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -377,11 +378,11 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-              only: [main]
+      # - deploy-infrastructure:
+      #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #     filters:
+      #       branches:
+      #         only: [main]
       # - configure-infrastructure:
       #     requires: [deploy-infrastructure]
       # - run-migrations:
