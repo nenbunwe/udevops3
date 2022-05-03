@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   slack: circleci/slack@4.1
+  aws-cli: circleci/aws-cli@3.1.0
 
 # commands:
 #   destroy-environment:
@@ -195,9 +196,9 @@ jobs:
 
 
   deploy-infrastructure:
-    docker:
+    # docker:
       # Docker image here that supports AWS CLI
-      - image: circleci/node:13.8.0
+    executor: aws-cli/default
     steps:
       # Checkout code from git
       - run:
@@ -220,7 +221,8 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             # Your code here
-            exit 1
+            aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
+            --query 'Reservations[*].Instances[0].PublicIpAddress' --output text >> .~/project/.circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
