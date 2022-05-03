@@ -2,7 +2,15 @@ version: 2.1
 orbs:
   slack: circleci/slack@4.1
 
-# commands:
+commands:
+  install-package:
+    description: Install AWS cli and Ansible
+    steps:
+      - run:
+          name: Install additional package
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y awscli ansible
 #   destroy-environment:
 #     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
 #     parameters:
@@ -197,9 +205,11 @@ jobs:
   deploy-infrastructure:
     docker:
       # Docker image here that supports AWS CLI
-      - image: amazon/aws-cli
+      # - image: cimg/base:stable-22.04
+      - image: 18120211/aws-ansible-22.04
     steps:
       # Checkout code from git
+      # - install-package
       - checkout
       - run:
           name: Ensure back-end infrastructure exists
