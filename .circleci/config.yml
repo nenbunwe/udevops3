@@ -280,7 +280,8 @@ jobs:
           name: Send migration results to KVDB
           command: |
             # Your code here
-            if grep -q "has been executed successfully" backend/migrations-result.txt
+            cat backend/migrations-result.txt
+            if grep -q "has been executed successfully." backend/migrations-result.txt
             then
               curl https://kvdb.io/8aiK3uxruXiWnYN59SsJ9i/SUCCESS -d 1
             else
