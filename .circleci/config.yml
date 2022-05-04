@@ -283,7 +283,7 @@ jobs:
             then
               curl https://kvdb.io/8aiK3uxruXiWnYN59SsJ9i/SUCCESS -d 1
             else
-              curl curl https://kvdb.io/8aiK3uxruXiWnYN59SsJ9i/SUCCESS -d 0
+              curl https://kvdb.io/8aiK3uxruXiWnYN59SsJ9i/SUCCESS -d 0
             fi
      # Here's where you will add some code to rollback on failure      
       - destroy-environment
