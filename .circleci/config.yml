@@ -303,9 +303,9 @@ jobs:
             # your code here
             export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
              --query 'Reservations[*].Instances[0].PublicIpAddress' --output text)
-            echo $BACKEND_URL
             echo "API_URL=${BACKEND_URL}" > frontend/.env
             cat frontend/.env
+            echo "https://udapeople-${CIRCLE_WORKFLOW_ID}.s3.amazonaws.com/index.html"
       - run:
           name: Deploy frontend objects
           command: |
@@ -313,7 +313,7 @@ jobs:
             cd frontend
             npm install
             npm run build
-            aws s3 cp dist s3://backend-${CIRCLE_WORKFLOW_ID} --recursive
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
       # Here's where you will add some code to rollback on failure      
       - destroy-environment
 
