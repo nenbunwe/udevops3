@@ -14,6 +14,16 @@
   apt:
     autoremove: yes
 
+- name: Add nodejs version 13 packge 
+  become: yes
+  get_url:
+    url: https://deb.nodesource.com/setup_13.x
+    dest: /tmp/node13.sh
+    mode: 100
+
+- name: Add nodejs version 13 to apt-get
+  shell: /tmp/node13.sh
+
 - name: "install dependencies."
   become: yes
   apt:

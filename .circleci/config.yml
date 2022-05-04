@@ -300,8 +300,9 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            # your code here
-            export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
+            # export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
+            #  --query 'Reservations[*].Instances[0].PublicIpAddress' --output text)
+            export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-0ba6b9a5-335a-4021-8fb5-6d78e17e4014" \
              --query 'Reservations[*].Instances[0].PublicIpAddress' --output text)
             echo "API_URL=${BACKEND_URL}:3000" > frontend/.env
             cat frontend/.env
@@ -309,7 +310,6 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
-            # your code here
             cd frontend
             npm install
             npm run build
@@ -318,22 +318,23 @@ jobs:
       # Here's where you will add some code to rollback on failure  
       - destroy-environment
 
-  # deploy-backend:
-  #   docker:
-  #     # Docker image here that supports Ansible
-  #   steps:
-  #     # Checkout code from git
-  #     # Add ssh keys with fingerprint
-  #     # attach workspace
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           # your code here
-  #     - run:
-  #         name: Deploy backend
-  #         command: |
-  #           # your code here
-  #     # Here's where you will add some code to rollback on failure  
+  deploy-backend:
+    docker:
+      # Docker image here that supports Ansible
+      
+    steps:
+      # Checkout code from git
+      # Add ssh keys with fingerprint
+      # attach workspace
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+      - run:
+          name: Deploy backend
+          command: |
+            # your code here
+      # Here's where you will add some code to rollback on failure  
 
   # smoke-test:
   #   docker:
