@@ -289,29 +289,32 @@ jobs:
             fi
      # Here's where you will add some code to rollback on failure      
       - destroy-environment
-      - revert-migrations
 
-  # deploy-frontend:
-  #   docker:
-  #     # Docker image here that supports AWS CLI
-  #   steps:
-  #     # Checkout code from git
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           # your code here
-  #     - run:
-  #         name: Get backend url
-  #         command: |
-  #           # your code here
-  #           export API_URL="http://${BACKEND_IP}:3030"
-  #           echo "${API_URL}"
-  #     - run:
-  #         name: Deploy frontend objects
-  #         command: |
-  #           # your code here
-  #     # Here's where you will add some code to rollback on failure      
-                    
+  deploy-frontend:
+    docker:
+      # Docker image here that supports AWS CLI
+      - image: 18120211/node-aws-ansible-22.04
+    steps:
+      # Checkout code from git
+      - checkout
+      - run:
+          name: Get backend url
+          command: |
+            # your code here
+            export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
+             --query 'Reservations[*].Instances[0].PublicIpAddress' --output text)
+            echo $BACKEND_URL
+            echo "API_URL=${BACKEND_URL}" > frontend/.env
+            cat frontend/.env
+      - run:
+          name: Deploy frontend objects
+          command: |
+            # your code here
+            cd frontend
+            aws s3 cp dist s3://backend-${CIRCLE_WORKFLOW_ID} --recursive
+      # Here's where you will add some code to rollback on failure      
+      - destroy-environment
+
   # deploy-backend:
   #   docker:
   #     # Docker image here that supports Ansible
@@ -409,11 +412,11 @@ workflows:
       #         only: [main]
       # - configure-infrastructure:
       #     requires: [deploy-infrastructure]
-      - run-migrations:
+      # - run-migrations:
           # requires: [configure-infrastructure]
+      - deploy-frontend:
+          # requires: [run-migrations]
           requires: [build-frontend, build-backend]
-      # - deploy-frontend:
-      #     requires: [run-migrations]
       # - deploy-backend:
       #     requires: [run-migrations]
       # - smoke-test:
