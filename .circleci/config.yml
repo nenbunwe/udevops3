@@ -300,9 +300,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            # export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
-            #  --query 'Reservations[*].Instances[0].PublicIpAddress' --output text)
-            export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-0ba6b9a5-335a-4021-8fb5-6d78e17e4014" \
+            export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
              --query 'Reservations[*].Instances[0].PublicIpAddress' --output text)
             echo "API_URL=${BACKEND_URL}:3000" > frontend/.env
             cat frontend/.env
@@ -313,8 +311,7 @@ jobs:
             cd frontend
             npm install
             npm run build
-            # aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
-            aws s3 cp dist s3://udapeople-0ba6b9a5-335a-4021-8fb5-6d78e17e4014 --recursive
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
       # Here's where you will add some code to rollback on failure  
       - destroy-environment
 
@@ -401,26 +398,25 @@ workflows:
           context: my-context
       - build-backend:
           context: my-context
-      # - test-frontend:
-      #     requires: [build-frontend]
-      # - test-backend:
-      #     requires: [build-backend]
-      # - scan-backend:
-      #     requires: [build-backend]
-      # - scan-frontend:
-      #     requires: [build-frontend]
-      # - deploy-infrastructure:
-      #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-      #     filters:
-      #       branches:
-      #         only: [main]
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
+      - test-frontend:
+          requires: [build-frontend]
+      - test-backend:
+          requires: [build-backend]
+      - scan-backend:
+          requires: [build-backend]
+      - scan-frontend:
+          requires: [build-frontend]
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          filters:
+            branches:
+              only: [main]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
-      - deploy-frontend:
-          # requires: [run-migrations]
-          requires: [build-frontend, build-backend]
+      # - deploy-frontend:
+      #     requires: [run-migrations]
       # - deploy-backend:
       #     requires: [run-migrations]
       # - smoke-test:
