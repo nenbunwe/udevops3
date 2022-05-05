@@ -24,7 +24,7 @@ commands:
             aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID}"
 
   revert-migrations:
-    description: Revert the last migration if successfully run in the current workflow.
+    description: Revert the last migration if successfully run in the current workflow. 
     steps:
       - run:
           name: Revert migrations
@@ -372,8 +372,7 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            # export FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com/index.html"
-            export FRONTEND_URL="https://udapeople-6bf69038-743f-46ee-a32b-847a0af996a5.s3.amazonaws.com/index.html"
+            export FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com/index.html"
             echo "-------------------- Frontend url ------------------------"
             echo $FRONTEND_URL
             if curl $FRONTEND_URL | grep "Welcome"
