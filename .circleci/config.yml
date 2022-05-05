@@ -293,7 +293,7 @@ jobs:
   deploy-frontend:
     docker:
       # Docker image here that supports AWS CLI
-      - image: 18120211/aws-ansible-22.04
+      - image: 18120211/node-aws-ansible-22.04
     steps:
       # Checkout code from git
       - checkout
@@ -316,7 +316,7 @@ jobs:
             npm run build
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
       # Here's where you will add some code to rollback on failure  
-      - destroy-environment
+      # - destroy-environment
 
   deploy-backend:
     docker:
@@ -347,7 +347,7 @@ jobs:
             ls /root/project
             ansible-playbook -i ~/inventory.txt .circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
-      - destroy-environment
+      # - destroy-environment
 
   # smoke-test:
   #   docker:
