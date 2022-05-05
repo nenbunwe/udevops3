@@ -336,7 +336,9 @@ jobs:
           command: |
             tar -czvf backend.tar.gz backend
             echo "--------------------log 2----------------------"
-            cat ~/inventory
+            echo "[web]" > ~/inventory.txt
+            echo "3.94.168.202" >> ~/inventory.txt
+            cat ~/inventory.txt
             ansible-playbook -i ~/inventory.txt .circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
       - destroy-environment
@@ -401,10 +403,10 @@ cleanup:
 workflows:
   default:
     jobs:
-      - build-frontend:
-          context: my-context
-      - build-backend:
-          context: my-context
+      # - build-frontend:
+      #     context: my-context
+      # - build-backend:
+      #     context: my-context
       # - test-frontend:
       #     requires: [build-frontend]
       # - test-backend:
@@ -424,9 +426,8 @@ workflows:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
       #     requires: [run-migrations]
-      - deploy-backend:
+      - deploy-backend
           # requires: [run-migrations]
-          requires: [build-frontend, build-backend]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
