@@ -365,9 +365,9 @@ jobs:
             export BACKEND_URL="54.196.32.134:3030/api/status"
             export FRONTEND_URL="https://udapeople-6bf69038-743f-46ee-a32b-847a0af996a5.s3.amazonaws.com/index.html"
             echo "-------------------- Backend url ------------------------"
-            echo $BACKEND_URL
+            echo ${BACKEND_URL}
             echo "-------------------- Frontend url ------------------------"
-            echo $FRONTEND_URL
+            echo ${FRONTEND_URL}
       - run:
           name: Backend smoke test.
           command: |
@@ -378,6 +378,7 @@ jobs:
               return 0
             else
               return 1
+            fi
       - run:
           name: Frontend smoke test.
           command: |
@@ -388,6 +389,7 @@ jobs:
               return 0
             else
               return 1
+            fi
       # Here's where you will add some code to rollback on failure  
       # - destroy-environment
       # - revert-migrations
