@@ -43,7 +43,8 @@ commands:
 jobs:
   build-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      # - image: circleci/node:13.8.0
+      - image: 18120211/node-aws-ansible-22.04
     steps:
       - checkout
       - restore_cache:
@@ -87,7 +88,8 @@ jobs:
 
   build-backend:
     docker:
-      - image: circleci/node:13.8.0
+      # - image: circleci/node:13.8.0
+      - image: 18120211/node-aws-ansible-22.04
     steps:
       - checkout
       - restore_cache:
@@ -132,7 +134,8 @@ jobs:
   test-frontend:
     docker:
       # Docker image here
-      - image: circleci/node:13.8.0
+      # - image: circleci/node:13.8.0
+      - image: 18120211/node-aws-ansible-22.04
     steps:
       # Checkout code from git
       - checkout
@@ -149,7 +152,8 @@ jobs:
   test-backend:
     docker:
       # Docker image here
-      - image: circleci/node:13.8.0
+      # - image: circleci/node:13.8.0
+      - image: 18120211/node-aws-ansible-22.04
     steps:
       # Checkout code from git
       - checkout
@@ -166,7 +170,7 @@ jobs:
   scan-frontend:
     docker:
       # Docker image here
-      - image: circleci/node:13.8.0
+      - image: 18120211/node-aws-ansible-22.04
     steps:
       # Checkout code from git
       - checkout
@@ -184,7 +188,8 @@ jobs:
   scan-backend:
     docker:
       # Docker image here
-      - image: circleci/node:13.8.0
+      # - image: circleci/node:13.8.0
+      - image: 18120211/node-aws-ansible-22.04
     steps:
       # Checkout code from git
       - checkout
@@ -335,17 +340,15 @@ jobs:
       - run:
           name: Deploy backend
           command: |
-            echo "[web]" > ~/inventory.txt
-            echo "54.197.202.249" >> ~/inventory.txt
+            # echo "[web]" > ~/inventory.txt
+            # echo "54.197.202.249" >> ~/inventory.txt
+            echo "--------------------inventory data----------------------"
             cat ~/inventory.txt
             cd backend
             npm install
             npm run build
             cd ../
             tar -czvf backend.tar.gz backend
-            echo "--------------------log 2----------------------"
-            ls ~
-            echo "--------------------log 3----------------------"
             ls /root/project
             ansible-playbook -i ~/inventory.txt .circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
