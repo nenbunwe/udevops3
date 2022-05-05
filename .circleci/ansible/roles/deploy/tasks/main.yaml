@@ -3,16 +3,16 @@
     src: ~/project/backend.tar.gz
     dest: /home/ubuntu
 
-- name: "install node_modules"
-  become: true
-  command: npm install
-  args:
-    chdir: /home/ubuntu/backend
+# - name: "install node_modules"
+#   become: true
+#   command: npm install
+#   args:
+#     chdir: /home/ubuntu/backend
 
-- name: "build npm packages"
-  command: npm run build
-  args:
-    chdir: /home/ubuntu/backend
+# - name: "build npm packages"
+#   command: npm run build
+#   args:
+#     chdir: /home/ubuntu/backend
 
 - name: "--------------------log----------------------"
   command: ls
@@ -20,6 +20,6 @@
     chdir: /home/ubuntu/backend/dist
 
 - name: "start server"
-  command: pm2 start main.js
+  command: pm2 start main.js --name=backend
   args:
     chdir: /home/ubuntu/backend/dist
