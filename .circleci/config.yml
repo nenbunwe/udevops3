@@ -260,7 +260,7 @@ jobs:
           command: |
             ansible-playbook -i ~/inventory.txt .circleci/ansible/configure-server.yml
       # Here's where you will add some code to rollback on failure      
-      # - destroy-environment
+      - destroy-environment
 
   run-migrations:
     docker:
@@ -308,6 +308,8 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
+            echo "--------------------log 1----------------------"
+            pwd
             cd frontend
             npm install
             npm run build
@@ -315,23 +317,29 @@ jobs:
       # Here's where you will add some code to rollback on failure  
       - destroy-environment
 
-  # deploy-backend:
-  #   docker:
-  #     # Docker image here that supports Ansible
-      
-  #   steps:
-  #     # Checkout code from git
-  #     # Add ssh keys with fingerprint
-  #     # attach workspace
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           # your code here
-  #     - run:
-  #         name: Deploy backend
-  #         command: |
-  #           # your code here
-  #     # Here's where you will add some code to rollback on failure  
+  deploy-backend:
+    docker:
+      # Docker image here that supports Ansible
+      - image: 18120211:/node-aws-ansible-22.04
+    steps:
+      # Checkout code from git
+      - checkout
+      # Add ssh keys with fingerprint
+      - add_ssh_keys:
+          fingerprints:
+            - "36:c6:1e:19:7a:d4:77:2e:56:cc:11:6b:92:07:be:52"
+      # attach workspace
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Deploy backend
+          command: |
+            tar -czvf backend.tar.gz backend
+            echo "--------------------log 2----------------------"
+            cat ~/inventory
+            ansible-playbook -i ~/inventory.txt .circleci/ansible/deploy-backend.yml
+      # Here's where you will add some code to rollback on failure  
+      - destroy-environment
 
   # smoke-test:
   #   docker:
@@ -390,7 +398,6 @@ cleanup:
               # your code here
             fi
             
-
 workflows:
   default:
     jobs:
@@ -413,10 +420,10 @@ workflows:
               only: [main]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
-      # - run-migrations:
-      #     requires: [configure-infrastructure]
-      # - deploy-frontend:
-      #     requires: [run-migrations]
+      - run-migrations:
+          requires: [configure-infrastructure]
+      - deploy-frontend:
+          requires: [run-migrations]
       # - deploy-backend:
       #     requires: [run-migrations]
       # - smoke-test:
