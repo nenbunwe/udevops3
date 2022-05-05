@@ -357,20 +357,11 @@ jobs:
       # Checkout code from git
       - checkout
       - run:
-          name: Get backend url and frontend ur;
-          command: |
-            # export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
-            #  --query 'Reservations[*].Instances[0].PublicIpAddress' --output text):3030/api/status
-            # export FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com/index.html"
-            export BACKEND_URL="54.196.32.134:3030/api/status"
-            export FRONTEND_URL="https://udapeople-6bf69038-743f-46ee-a32b-847a0af996a5.s3.amazonaws.com/index.html"
-            echo "-------------------- Backend url ------------------------"
-            echo ${BACKEND_URL}
-            echo "-------------------- Frontend url ------------------------"
-            echo ${FRONTEND_URL}
-      - run:
           name: Backend smoke test.
           command: |
+            # export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
+            # --query 'Reservations[*].Instances[0].PublicIpAddress' --output text):3030/api/status
+            export BACKEND_URL="54.196.32.134:3030/api/status"
             echo "-------------------- Backend url ------------------------"
             echo $BACKEND_URL
             if curl $BACKEND_URL | grep "ok"
@@ -382,6 +373,8 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
+            # export FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com/index.html"
+            export FRONTEND_URL="https://udapeople-6bf69038-743f-46ee-a32b-847a0af996a5.s3.amazonaws.com/index.html"
             echo "-------------------- Frontend url ------------------------"
             echo $FRONTEND_URL
             if curl $FRONTEND_URL | grep "Welcome"
