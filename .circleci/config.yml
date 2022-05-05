@@ -353,15 +353,20 @@ jobs:
     docker:
       # Lightweight Docker image 
       - image: 18120211/aws-ansible-22.04
+    parameters:
+      BACKEND_URL:
+        default: "54.196.32.134:3030/api/status"
+        type: string
     steps:
       # Checkout code from git
       - checkout
       - run:
           name: Backend smoke test.
           command: |
-            export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
+            export BACKEND_URI=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
             --query 'Reservations[*].Instances[0].PublicIpAddress' --output text):3030/api/status
-            
+            echo "-------------------- Backend url ------------------------"
+            echo $BACKEND_URL
             if curl $BACKEND_URL | grep "ok"
             then
               exit 1
