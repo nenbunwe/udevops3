@@ -1,7 +1,7 @@
 - name: "Unarchive files and move to ec2"
   unarchive:
     src: ~/project/backend.tar.gz
-    dest: /home/ubuntu
+    dest: /home/ubuntu/
 
 # - name: "install node_modules"
 #   become: true
