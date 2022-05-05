@@ -367,23 +367,23 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-          echo "-------------------- Backend url ------------------------"
-          echo $BACKEND_URL
-          if curl $BACKEND_URL | grep "ok"
-          then
-            return 0
-          else
+            echo "-------------------- Backend url ------------------------"
+            echo $BACKEND_URL
+            if curl $BACKEND_URL | grep "ok"
+            then
+              return 0
+            else
             return 1
       - run:
           name: Frontend smoke test.
           command: |
-          echo "-------------------- Frontend url ------------------------"
-          echo $FRONTEND_URL
-          if curl $FRONTEND_URL | grep "Welcome"
-          then
-            return 0
-          else
-            return 1
+            echo "-------------------- Frontend url ------------------------"
+            echo $FRONTEND_URL
+            if curl $FRONTEND_URL | grep "Welcome"
+            then
+              return 0
+            else
+              return 1
       # Here's where you will add some code to rollback on failure  
       # - destroy-environment
       # - revert-migrations
