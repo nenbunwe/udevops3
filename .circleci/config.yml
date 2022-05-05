@@ -362,13 +362,13 @@ jobs:
             export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
              --query 'Reservations[*].Instances[0].PublicIpAddress' --output text):3030/api/status
             export FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com/index.html"
-            export BACKEND_URL=54.196.32.134:3030/api/status
-            export FRONTEND_URL=https://udapeople-6bf69038-743f-46ee-a32b-847a0af996a5.s3.amazonaws.com/index.html
+            export BACKEND_URL="54.196.32.134:3030/api/status"
+            export FRONTEND_URL="https://udapeople-6bf69038-743f-46ee-a32b-847a0af996a5.s3.amazonaws.com/index.html"
       - run:
           name: Backend smoke test.
           command: |
             echo "-------------------- Backend url ------------------------"
-            echo $BACKEND_URL
+            echo ${BACKEND_URL}
             if curl $BACKEND_URL | grep "ok"
             then
               return 0
