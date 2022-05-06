@@ -439,8 +439,8 @@ jobs:
           name: Remove old stacks and files
           command: |
             echo "--------------------- OLD workflow id ----------------------"
-            export OldWorkFlowID=$(cat ~/old_workflow_id.txt)
-            echo ${OldWorkFlowID}
+            export OldWorkflowID=$(cat ~/old_workflow_id.txt)
+            echo ${OldWorkflowID}
             echo "--------------------- CURRENT workflow id ------------------"
             echo ${CIRCLE_WORKFLOW_ID}
 
