@@ -406,19 +406,21 @@ jobs:
       - run:
           name: Update cloudfront distribution
           command: |
-            echo "--------------------- OLD workflow id ----------------------"
-            export OldWorkflowID=$(aws cloudformation \
+            echo "--------------------- Get OLD workflow id ----------------------"
+            aws cloudformation \
             list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-            --no-paginate --output text)
-            echo $OldWorkflowID
-            echo "--------------------- CURRENT workflow id ------------------"
-            echo ${CIRCLE_WORKFLOW_ID}
+            --no-paginate --output text > ~/old_workflow_id.txt
+            cat ~/old_workflow_id.txt
             
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --tags project=udacity-project3 \
               --stack-name udapeople-cloudfront \
               --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID}
+        - persist_to_workspace:
+            root: ~/
+            paths: old_workflow_id.txt
+
       # Here's where you will add some code to rollback on failure  
       - destroy-environment
       - revert-migrations
@@ -430,14 +432,15 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+      # Attach workspace
+      - attach_workspace:
+          at: ~/
       - run:
           name: Remove old stacks and files
           command: |
             echo "--------------------- OLD workflow id ----------------------"
-            export OldWorkflowID=$(aws cloudformation \
-            list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-            --no-paginate --output text)
-            echo $OldWorkflowID
+            export OldWorkFlowID=$(cat ~/old_workflow_id.txt)
+            echo ${OldWorkFlowID}
             echo "--------------------- CURRENT workflow id ------------------"
             echo ${CIRCLE_WORKFLOW_ID}
 
