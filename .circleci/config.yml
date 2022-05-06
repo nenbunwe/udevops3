@@ -417,9 +417,9 @@ jobs:
               --tags project=udacity-project3 \
               --stack-name udapeople-cloudfront \
               --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID}
-        - persist_to_workspace:
-            root: ~/
-            paths: old_workflow_id.txt
+      - persist_to_workspace:
+          root: ~/
+          paths: old_workflow_id.txt
 
       # Here's where you will add some code to rollback on failure  
       - destroy-environment
