@@ -269,6 +269,9 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+      # Restore cache backend build
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Run migrations
           command: |
@@ -297,6 +300,9 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+      # Restore cache frontend
+      - restore_cache:
+          keys: [frontend-build]
       - run:
           name: Get backend url
           command: |
@@ -305,7 +311,9 @@ jobs:
             export API_URL=${BACKEND_URL}:3030
             echo "API_URL=${BACKEND_URL}:3030" > frontend/.env
             cat frontend/.env
+            echo "-------------------Front end URL--------------------"
             echo "https://udapeople-${CIRCLE_WORKFLOW_ID}.s3.amazonaws.com/index.html"
+            echo "https://udapeople-${CIRCLE_WORKFLOW_ID}.s3.amazonaws.com/index.html" > screenshots-urls/URL02.txt
       - run:
           name: Deploy frontend objects
           command: |
@@ -332,6 +340,9 @@ jobs:
       # attach workspace
       - attach_workspace:
           at: ~/
+      # Restore cache backend build
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Deploy backend
           command: |
@@ -385,24 +396,29 @@ jobs:
       - destroy-environment
       - revert-migrations
 
-  # cloudfront-update:
-  #   docker:
-  #     # Docker image here that supports AWS CLI
-  #   steps:
-  #     # Checkout code from git
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           # your code here
-  #     - run:
-  #         name: Update cloudfront distribution
-  #         command: |
-  #           # your code here
-  #     # Here's where you will add some code to rollback on failure  
+  cloudfront-update:
+    docker:
+      # Docker image here that supports AWS CLI
+      image: 18120211/aws-ansible-22.04
+    steps:
+      # Checkout code from git
+      - checkout
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/cloudfront.yml \
+              --tags project=udacity-project3 \
+              --stack-name udapeople-cloudfront-${CIRCLE_WORKFLOW_ID} \
+              --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID}
+      # Here's where you will add some code to rollback on failure  
+      - destroy-environment
+      - revert-migrations
 
 cleanup:
     docker:
       # Docker image here
+      image: 18120211/aws-ansible-22.04
     steps:
       # Checkout code from git
       - run:
