@@ -406,10 +406,18 @@ jobs:
       - run:
           name: Update cloudfront distribution
           command: |
+            echo "--------------------- OLD workflow id ----------------------"
+            export OldWorkflowID=$(aws cloudformation \
+            list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+            --no-paginate --output text)
+            echo $OldWorkflowID
+            echo "--------------------- CURRENT workflow id ------------------"
+            echo ${CIRCLE_WORKFLOW_ID}
+            
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --tags project=udacity-project3 \
-              --stack-name udapeople-cloudfront-${CIRCLE_WORKFLOW_ID} \
+              --stack-name udapeople-cloudfront \
               --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID}
       # Here's where you will add some code to rollback on failure  
       - destroy-environment
