@@ -1,1 +1,0 @@
-https://udacity-test-s3-bucket.s3.amazonaws.com/index.html

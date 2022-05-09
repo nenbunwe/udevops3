@@ -313,7 +313,6 @@ jobs:
             cat frontend/.env
             echo "-------------------Front end URL--------------------"
             echo "https://udapeople-${CIRCLE_WORKFLOW_ID}.s3.amazonaws.com/index.html"
-            echo "https://udapeople-${CIRCLE_WORKFLOW_ID}.s3.amazonaws.com/index.html" > screenshots-urls/URL02.txt
       - run:
           name: Deploy frontend objects
           command: |
@@ -444,7 +443,7 @@ jobs:
             echo "--------------------- CURRENT workflow id ------------------"
             echo ${CIRCLE_WORKFLOW_ID}
 
-            if [[ "${CIRCLE_WORKFLOW_ID}" != "${OldWorkflowID}" ]]
+            if [[ "${CIRCLE_WORKFLOW_ID}" != "${OldWorkflowID}" && "${OldWorkflowID}" != "" ]]
             then
               echo "---------- OH YEAH -----------"
               aws s3 rb "s3://udapeople-${OldWorkflowID}" --force
