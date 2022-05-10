@@ -1,4 +1,0 @@
-[URL01]: https://github.com/18120211/devops-udacity-project3
-[URL02]: https://udapeople-3732c012-dad8-45d1-baff-114bcb449d4d.s3.amazonaws.com/index.html
-
-cloudfront url: dh4bn9iqipatf.cloudfront.net	
