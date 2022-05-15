@@ -308,8 +308,8 @@ jobs:
           command: |
             export BACKEND_URL=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
              --query 'Reservations[*].Instances[0].PublicIpAddress' --output text)
-            export API_URL=http://${BACKEND_URL}:3030
-            echo "API_URL=http://${BACKEND_URL}:3030" > frontend/.env
+            export API_URL=https://${BACKEND_URL}:3030
+            echo "API_URL=https://${BACKEND_URL}:3030" > frontend/.env
             echo "-------------------Back end URL---------------------"
             cat frontend/.env
             echo "-------------------Front end URL--------------------"
