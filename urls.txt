@@ -1,5 +1,5 @@
 [URL01]: https://github.com/18120211/devops-udacity-project3
 [URL02]: http://udapeople-be78f425-a8e2-4170-b5d3-a49ad9095bbd.s3.amazonaws.com/index.html#/employees
 [URL03]: d26xi8w27cnojl.cloudfront.net	
-[URL04]: http://3.80.95.208:3030
-[URL05]: http://ec2-18-204-211-119.compute-1.amazonaws.com:9090
+[URL04]: http://18.207.155.70:3030
+[URL05]: http://ec2-54-209-245-191.compute-1.amazonaws.com:9090
