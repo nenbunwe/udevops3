@@ -84,7 +84,7 @@ jobs:
             npm install
             npm test
             
-test-backend:
+  test-backend:
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -98,9 +98,9 @@ test-backend:
             npm install
             npm test
             
-scan-frontend:
+  scan-frontend:
     docker:
-      - image: cimg/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -111,25 +111,26 @@ scan-frontend:
             cd frontend
             npm install
             npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
 
-scan-backend:
+  scan-backend:
     docker:
-      - image: cimg/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
           keys: [backend-nuild]
       - run:
-          name: Scanning backend
+          name: Scan backend
           command: |
             cd backend
             npm install
-            npm audit fix --force --audit-level=critical
-            npm audit fix --force --audit-level=critical
+            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
-
-deploy-infrastructure:
+            
+  deploy-infrastructure:
     docker:
       - image: amazon/aws-cli
     steps:
