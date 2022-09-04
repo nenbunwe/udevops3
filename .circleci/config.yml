@@ -81,7 +81,7 @@ jobs:
             npm install
             npm test
                 
- test-backend:
+  test-backend:
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -103,12 +103,12 @@ jobs:
       - restore_cache:
           keys: [frontend-build]
       - run:
-          name: Scan frontend
+          name: Scanning frontend
           command: |
             cd frontend
             npm install
-            npm audit --audit-level=critical
             npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
 
   scan-backend:
     docker:
@@ -118,13 +118,13 @@ jobs:
       - restore_cache:
           keys: [backend-nuild]
       - run:
-          name: scan backend
+          name: Scanning backend
           command: |
             cd backend
             npm install
+            npm audit fix --force --audit-level=critical
+            npm audit fix --force --audit-level=critical
             npm audit --audit-level=critical
-            npm audit fix --force --audit-level=critical
-            npm audit fix --force --audit-level=critical
 
 #   deploy-infrastructure:
 #     docker:
