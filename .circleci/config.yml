@@ -341,7 +341,6 @@ jobs:
     steps:
       - checkout
       - run: apk add --update tar gzip curl
-    steps:
       - checkout
       - install_awscli
       - install_ansible
