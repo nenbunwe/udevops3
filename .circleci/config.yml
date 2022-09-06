@@ -340,7 +340,7 @@ jobs:
       - image: cimg/base:2022.06
     steps:
       - checkout
-      - run: apk add --update tar gzip curl
+      - apk add --update tar gzip curl
       - checkout
       - install_awscli
       - install_ansible
@@ -417,7 +417,7 @@ jobs:
             curl "${API_URL}/api/status"
             if curl "${API_URL}/api/status" | grep "ok"
             then
-              return 0 
+              return 1 
             else
               return 1
             fi
