@@ -347,13 +347,14 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - run:
-          name:  
-          command: |
-            apk add --update tar gzip curl
-      - checkout
+      # comment 351 to 355 to see if deploy backend will pass
+      # - run:
+      #     name:  
+      #     command: |
+      #       apk add --update tar gzip curl
+      # - checkout
         # comment aws cli to check if job will pass since aws cli is not used here
-      # - install_awscli
+      - install_awscli
       - install_ansible
       - install_nodejs
       - add_ssh_keys:
