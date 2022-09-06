@@ -304,9 +304,9 @@ jobs:
   deploy-frontend:
     docker:
       # default image
-      - image: cimg/base:2022.06
+      # - image: cimg/base:2022.06
       # modify image to be the same with config backend 
-      # - image: python:3.7-alpine3.11
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - install_awscli
@@ -342,9 +342,9 @@ jobs:
   deploy-backend:
     docker:
       # default image
-      - image: cimg/base:2022.06
+      # - image: cimg/base:2022.06
       # modify image to solve error
-      # - image: python:3.7-alpine3.11
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - run:
