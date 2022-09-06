@@ -9,7 +9,9 @@ commands:
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
-            sudo ./aws/install
+            ./aws/install 
+            # comment the sudo for deploy backend
+            # sudo ./aws/install 
 
   install_ansible:
     description: Install Ansible
@@ -303,7 +305,10 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: cimg/base:2022.06
+      # default image
+      # - image: cimg/base:2022.06
+      # modify image to be the same with config backend 
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - install_awscli
@@ -315,6 +320,7 @@ jobs:
           command: |
             cd frontend
             npm install
+            npm update
       - run:
           name: Get backend url
           command: |
@@ -376,7 +382,7 @@ jobs:
             cd backend
             npm i
             npm run build
-            # tar -czf artifact.tar.gz .
+            tar -czf artifact.tar.gz .
             cd ..
             # enter backend directory and Zip the directory
             tar -C backend -czf artifact.tar.gz .
