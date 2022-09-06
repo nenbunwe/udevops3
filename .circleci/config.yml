@@ -342,7 +342,7 @@ jobs:
       - checkout
       - run:
           name:  
-          command: 
+          command: |
             apk add --update tar gzip curl
       - checkout
       - install_awscli
