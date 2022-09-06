@@ -1,0 +1,17 @@
+---
+# - name: "Extract zip artifact"
+#   become: true
+#   shell: |
+#     tar -xvf ./artifact.tar.gz
+
+- name: Unarchive backend file
+  ansible.builtin.unarchive:
+    src: ~/project/artifact.tar.gz
+    dest: /home/ubuntu
+
+- name: "Start the App"
+  become: true
+  shell: |
+    npm install
+    pm2 stop default
+    pm2 start npm -- start  
