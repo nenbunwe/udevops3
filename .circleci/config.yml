@@ -9,9 +9,7 @@ commands:
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
-            ./aws/install 
-            # comment the sudo for deploy backend
-            # sudo ./aws/install 
+            sudo ./aws/install 
 
   install_ansible:
     description: Install Ansible
@@ -306,9 +304,9 @@ jobs:
   deploy-frontend:
     docker:
       # default image
-      # - image: cimg/base:2022.06
+      - image: cimg/base:2022.06
       # modify image to be the same with config backend 
-      - image: python:3.7-alpine3.11
+      # - image: python:3.7-alpine3.11
     steps:
       - checkout
       - install_awscli
@@ -343,7 +341,10 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: python:3.7-alpine3.11
+      # default image
+      - image: cimg/base:2022.06
+      # modify image to solve error
+      # - image: python:3.7-alpine3.11
     steps:
       - checkout
       - run:
@@ -351,7 +352,8 @@ jobs:
           command: |
             apk add --update tar gzip curl
       - checkout
-      - install_awscli
+        # comment aws cli to check if job will pass since aws cli is not used here
+      # - install_awscli
       - install_ansible
       - install_nodejs
       - add_ssh_keys:
