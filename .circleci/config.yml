@@ -337,7 +337,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: cimg/base:2022.06
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - run:
@@ -381,7 +381,7 @@ jobs:
             # enter backend directory and Zip the directory
             tar -C backend -czf artifact.tar.gz .
             cp artifact.tar.gz ~/project/.circleci/ansible/roles/deploy/files/
-            # ls ~/project/.circleci/ansible/roles/deploy/files/
+            ls ~/project/.circleci/ansible/roles/deploy/files/
             echo "Present working directory is -------"
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
@@ -420,7 +420,7 @@ jobs:
             curl "${API_URL}/api/status"
             if curl "${API_URL}/api/status" | grep "ok"
             then
-              return 0 
+              return 1 
             else
               return 1
             fi
