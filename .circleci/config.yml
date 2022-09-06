@@ -372,7 +372,7 @@ jobs:
             echo ${API_URL}
             if curl "${API_URL}" | grep "ok"
             then
-                exit 1
+                exit 0
             else
                 exit 1
             fi
