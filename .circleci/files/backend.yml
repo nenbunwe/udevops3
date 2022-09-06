@@ -37,7 +37,7 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
-        - Key: udevops3
+        - Key: project
           Value: Udapeople
 
   InstanceEIP:
