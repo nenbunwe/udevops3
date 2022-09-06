@@ -9,7 +9,7 @@ commands:
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
-            sudo ./aws/install 
+            sudo ./aws/install
 
   install_ansible:
     description: Install Ansible
@@ -303,10 +303,7 @@ jobs:
 
   deploy-frontend:
     docker:
-      # default image
-      # - image: cimg/base:2022.06
-      # modify image to be the same with config backend 
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:2022.06
     steps:
       - checkout
       - install_awscli
@@ -318,7 +315,6 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm update
       - run:
           name: Get backend url
           command: |
@@ -341,19 +337,14 @@ jobs:
 
   deploy-backend:
     docker:
-      # default image
-      # - image: cimg/base:2022.06
-      # modify image to solve error
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:2022.06
     steps:
       - checkout
-      # comment 351 to 355 to see if deploy backend will pass
-      # - run:
-      #     name:  
-      #     command: |
-      #       apk add --update tar gzip curl
-      # - checkout
-        # comment aws cli to check if job will pass since aws cli is not used here
+      - run:
+          name:  
+          command: |
+            apk add --update tar gzip curl
+      - checkout
       - install_awscli
       - install_ansible
       - install_nodejs
@@ -385,12 +376,12 @@ jobs:
             cd backend
             npm i
             npm run build
-            tar -czf artifact.tar.gz .
+            # tar -czf artifact.tar.gz .
             cd ..
             # enter backend directory and Zip the directory
             tar -C backend -czf artifact.tar.gz .
             cp artifact.tar.gz ~/project/.circleci/ansible/roles/deploy/files/
-            ls ~/project/.circleci/ansible/roles/deploy/files/
+            # ls ~/project/.circleci/ansible/roles/deploy/files/
             echo "Present working directory is -------"
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
@@ -429,7 +420,7 @@ jobs:
             curl "${API_URL}/api/status"
             if curl "${API_URL}/api/status" | grep "ok"
             then
-              return 1 
+              return 0 
             else
               return 1
             fi
