@@ -125,68 +125,68 @@ jobs:
           paths: [backend/node_modules]
           key: backend-deps
 
-#   test-frontend:
-#     docker:
-#       - image: cimg/node:13.8.0
-#     steps:
-#       - checkout
-#       - restore_cache:
-#           keys: [frontend-deps]
-#       - run:
-#           name: Front-end Unit Test
-#           command: |
-#             cd frontend
-#             npm install
-#             npm test
+  test-frontend:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [frontend-deps]
+      - run:
+          name: Front-end Unit Test
+          command: |
+            cd frontend
+            npm install
+            npm test
 
-#   test-backend:
-#     docker:
-#       - image: cimg/node:13.8.0
-#     steps:
-#       - checkout
-#       - restore_cache:
-#           keys: [backend-deps]
-#       - run:
-#           name: Back-end Unit Test
-#           command: |
-#             cd backend
-#             npm install
-#             npm test
+  test-backend:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [backend-deps]
+      - run:
+          name: Back-end Unit Test
+          command: |
+            cd backend
+            npm install
+            npm test
 
-#   scan-frontend:
-#     docker:
-#       - image: cimg/node:13.8.0
-#     steps:
-#       - checkout
-#       - restore_cache:
-#           keys: [frontend-deps]
-#       - run:
-#           name: Front-end Scan
-#           command: |
-#             cd frontend
-#               npm install
-#             npm audit fix --audit-level=critical --force
-#             # If the "npm audit fix" command above could not fix all critical vulnerabilities, try “npm audit fix --force” again
-#             npm audit --audit-level=critical
-#             # npm install
-#             # npm audit fix --force --audit-level=critical
-#             # npm audit --audit-level=critical
+  scan-frontend:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [frontend-deps]
+      - run:
+          name: Front-end Scan
+          command: |
+            cd frontend
+              npm install
+            npm audit fix --audit-level=critical --force
+            # If the "npm audit fix" command above could not fix all critical vulnerabilities, try “npm audit fix --force” again
+            npm audit --audit-level=critical
+            # npm install
+            # npm audit fix --force --audit-level=critical
+            # npm audit --audit-level=critical
 
-#   scan-backend:
-#     docker:
-#       - image: cimg/node:13.8.0
-#     steps:
-#       - checkout
-#       - restore_cache:
-#           keys: [backend-deps]
-#       - run:
-#           name: Back-end Scan
-#           command: |
-#             cd backend
-#             npm install
-#             npm audit fix --force --audit-level=critical
-#             npm audit fix --force --audit-level=critical
-#             npm audit --audit-level=critical
+  scan-backend:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [backend-deps]
+      - run:
+          name: Back-end Scan
+          command: |
+            cd backend
+            npm install
+            npm audit fix --force --audit-level=critical
+            npm audit fix --force --audit-level=critical
+            npm audit --audit-level=critical
 
 #   deploy-infrastructure:
 #     docker:
@@ -492,14 +492,14 @@ workflows:
     jobs:
       - build-frontend
       - build-backend
-#       - test-frontend:
-#           requires: [build-frontend]
-#       - test-backend:
-#           requires: [build-backend]
-#       - scan-backend:
-#           requires: [build-backend]
-#       - scan-frontend:
-#           requires: [build-frontend]
+      - test-frontend:
+          requires: [build-frontend]
+      - test-backend:
+          requires: [build-backend]
+      - scan-backend:
+          requires: [build-backend]
+      - scan-frontend:
+          requires: [build-frontend]
 #       - deploy-infrastructure:
 #           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
 #           filters:
