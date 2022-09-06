@@ -337,7 +337,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: cimg/aws:2022.06
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - run:
@@ -420,7 +420,7 @@ jobs:
             curl "${API_URL}/api/status"
             if curl "${API_URL}/api/status" | grep "ok"
             then
-              return 0 
+              return 1 
             else
               return 1
             fi
