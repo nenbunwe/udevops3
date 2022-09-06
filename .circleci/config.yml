@@ -395,9 +395,11 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - install_node
       - run:
           name: Update cloudfront distribution
           command: |
+            npm install
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --stack-name InitialStack
